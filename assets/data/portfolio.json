@@ -1,0 +1,163 @@
+{
+    "personalInfo": {
+        "name": "Boopathi",
+        "role": "Flutter Developer & AI Engineer",
+        "bio": "Flutter Developer with cross-platform development and backend integration using REST APIs, Firebase and building AI-driven systems with RAG, vector databases, and Local LLM integration, focused on scalable and efficient application development.",
+        "email": "boopathi5140@gmail.com",
+        "imageUrl": "assets/images/boopathi.jpeg",
+        "socialLinks": {
+            "GitHub": "https://github.com/boopathi-376",
+            "LinkedIn": "https://www.linkedin.com/in/boopathi-s-5a54602b3/",
+            "Email": "mailto:boopathi5140@gmail.com"
+        }
+    },
+    "skillCategories": [
+        {
+            "title": "Languages",
+            "skills": [
+                "Python",
+                "Java",
+                "C"
+            ]
+        },
+        {
+            "title": "Tools & Technologies",
+            "skills": [
+                "Git",
+                "GitHub",
+                "Android Studio",
+                "Cloudinary",
+                "Docker",
+                "Ollama"
+            ]
+        },
+        {
+            "title": "Database",
+            "skills": [
+                "Firestore",
+                "SQLite",
+                "Qdrant",
+                "ChromaDB"
+            ]
+        },
+        {
+            "title": "Mobile Development",
+            "skills": [
+                "Flutter",
+                "Firebase",
+                "Flutterflow",
+                "Provider",
+                "REST APIs"
+            ]
+        },
+        {
+            "title": "LLM & AI Systems",
+            "skills": [
+                "RAG",
+                "Vector Databases",
+                "Local LLMs",
+                "FastAPI"
+            ]
+        }
+    ],
+    "education": [
+        {
+            "title": "Bachelor of Technology",
+            "subtitle": "Artificial Intelligence and Data Science",
+            "institution": "Dr. Mahalingam College of Engineering and Technology, Anna University, Pollachi",
+            "date": "2023 - 2027",
+            "score": "CGPA: 7.85"
+        },
+        {
+            "title": "HSC",
+            "subtitle": "Rasi Matriculation Higher Secondary School",
+            "institution": "Eachampatti",
+            "date": "March 2023",
+            "score": "Percentage: 85.66%"
+        },
+        {
+            "title": "SSLC",
+            "subtitle": "Rasi Matriculation Higher Secondary School",
+            "institution": "Eachampatti",
+            "date": "March 2021",
+            "score": "Result: PASS"
+        }
+    ],
+    "projects": [
+        {
+            "title": "Semantic Filter-Driven Chatbot 🤖",
+            "description": "Built a RAG-based REST API using FastAPI with vector search via Qdrant. Integrated Ollama for local LLM inference and Docker for containerized vector DB, returning structured JSON output.",
+            "imageUrl": "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
+            "technologies": [
+                "FastAPI",
+                "Qdrant",
+                "Ollama",
+                "Docker",
+                "Python"
+            ],
+            "githubUrl": "https://github.com/boopathi-376/Semantic-Filter-Driven-Chatbot",
+            "date": "Oct 2025 - Nov 2025"
+        },
+        {
+            "title": "Full-Stack Cafe Delivery App ☕",
+            "description": "Developed a full-stack mobile application using Flutter and Firebase (Authentication, Cloud Firestore). Implemented real-time data synchronization and cloud-based image storage.",
+            "imageUrl": "https://images.unsplash.com/photo-1554118811-1e0d58224f24",
+            "technologies": [
+                "Flutter",
+                "Firebase",
+                "Cloudinary"
+            ],
+            "githubUrl": "https://github.com/boopathi-376/cafe_customer",
+            "date": "Apr 2025 - May 2025"
+        },
+        {
+            "title": "CPSAM – Student Management 🎓",
+            "description": "Mobile application enabling activity submission and dashboard tracking. Integrated REST APIs with secure HTTPS communication and JWT-based authentication.",
+            "imageUrl": "https://images.unsplash.com/photo-1523050335392-938511794244",
+            "technologies": [
+                "Flutter",
+                "REST API",
+                "JWT",
+                "HTTPS"
+            ],
+            "githubUrl": "https://github.com/boopathi-376/mobileapp",
+            "date": "Nov 2025 - Dec 2025"
+        }
+    ],
+    "internships": [
+        {
+            "title": "Artificial Intelligence Intern",
+            "company": "InFynd, Coimbatore (On-site)",
+            "date": "Nov 2025 - Jan 2026",
+            "description": "Designed a RAG-based workflow for processing unstructured inputs and contextual retrieval. Implemented structured JSON generation with schema validation and filtering logic."
+        },
+        {
+            "title": "Data Analytics Intern",
+            "company": "Techvolt, Coimbatore",
+            "date": "June 2025",
+            "description": "Worked on analyzing and cleaning large datasets using Python. Created visualizations to identify trends and insights from structured data."
+        }
+    ],
+    "certifications": [
+        {
+            "title": "Smart India Hackathon 2025 Winner",
+            "institution": "Team HackHounds | Smart Education",
+            "date": "2025"
+        },
+        {
+            "title": "Office Bearer, Invictus",
+            "institution": "AI & DS Association",
+            "date": "2024 - 2025"
+        },
+        {
+            "title": "Flutter Essential Training",
+            "institution": "LinkedIn Learning",
+            "date": "2025"
+        },
+        {
+            "title": "Soft Skill Development",
+            "institution": "NPTEL",
+            "date": "2024"
+        }
+    ]
+}
