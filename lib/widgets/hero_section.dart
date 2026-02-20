@@ -5,6 +5,7 @@ import '../providers/portfolio_provider.dart';
 import '../constants/app_colors.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HeroSection extends StatelessWidget {
   final Function(String) onMenuClick; // Single callback for all nav
@@ -348,9 +349,9 @@ class HeroSection extends StatelessWidget {
           spacing: 18,
           alignment: isCenter ? WrapAlignment.center : WrapAlignment.start,
           children: [
-            _socialIcon(Icons.code),
-            _socialIcon(Icons.work),
-            _socialIcon(Icons.email),
+            _socialIcon(Icons.code, personalInfo.socialLinks['GitHub']),
+            _socialIcon(Icons.work, personalInfo.socialLinks['LinkedIn']),
+            _socialIcon(Icons.email, personalInfo.socialLinks['Email']),
           ],
         ).animate().fadeIn(delay: 1200.ms),
       ],
@@ -465,15 +466,30 @@ class HeroSection extends StatelessWidget {
 
   /// ================= SOCIAL ICON =================
 
-  Widget _socialIcon(IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white10),
+  Widget _socialIcon(IconData icon, String? url) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () {
+          if (url != null) _launchUrl(url);
+        },
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.05),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.white10),
+          ),
+          child: Icon(icon, color: Colors.white70, size: 24),
+        ),
       ),
-      child: Icon(icon, color: Colors.white70, size: 24),
     );
+  }
+
+  Future<void> _launchUrl(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    if (!await launchUrl(url)) {
+      debugPrint('Could not launch $url');
+    }
   }
 }

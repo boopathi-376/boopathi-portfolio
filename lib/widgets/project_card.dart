@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:url_launcher/url_launcher.dart';
 import '../models/project.dart';
 import '../constants/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -128,7 +129,14 @@ class _ProjectCardState extends State<ProjectCard> {
                     const Spacer(),
                     Align(
                       alignment: Alignment.bottomRight,
-                      child: _codeButton(widget.project.githubUrl, isWeb),
+                      child: Wrap(
+                        spacing: 12, // Space between buttons
+                        children: [
+                          if (widget.project.liveDemoUrl != null)
+                            _liveDemoButton(widget.project.liveDemoUrl, isWeb),
+                          _codeButton(widget.project.githubUrl, isWeb),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -173,38 +181,94 @@ class _ProjectCardState extends State<ProjectCard> {
     );
   }
 
+  Future<void> _launchUrl(String? url) async {
+    if (url != null && await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    }
+  }
+
   Widget _codeButton(String? url, bool isWeb) {
+    if (url == null || url.isEmpty) return const SizedBox.shrink();
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(
-          horizontal: isWeb ? 16 : 14,
-          vertical: isWeb ? 10 : 8,
-        ),
-        decoration: BoxDecoration(
-          color: _isHovered ? AppColors.secondary : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.secondary, width: 1.5),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.terminal,
-              color: _isHovered ? Colors.black : AppColors.secondary,
-              size: isWeb ? 18 : 16,
-            ),
-            SizedBox(width: isWeb ? 8 : 6),
-            Text(
-              "View Code",
-              style: GoogleFonts.firaCode(
+      child: GestureDetector(
+        onTap: () => _launchUrl(url),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: EdgeInsets.symmetric(
+            horizontal: isWeb ? 16 : 14,
+            vertical: isWeb ? 10 : 8,
+          ),
+          decoration: BoxDecoration(
+            color: _isHovered ? AppColors.secondary : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: AppColors.secondary, width: 1.5),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.terminal,
                 color: _isHovered ? Colors.black : AppColors.secondary,
-                fontSize: isWeb ? 12 : 11,
-                fontWeight: FontWeight.bold,
+                size: isWeb ? 18 : 16,
               ),
+              SizedBox(width: isWeb ? 8 : 6),
+              Text(
+                "View Code",
+                style: GoogleFonts.firaCode(
+                  color: _isHovered ? Colors.black : AppColors.secondary,
+                  fontSize: isWeb ? 12 : 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _liveDemoButton(String? url, bool isWeb) {
+    if (url == null || url.isEmpty) return const SizedBox.shrink();
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () => _launchUrl(url),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: EdgeInsets.symmetric(
+            horizontal: isWeb ? 16 : 14,
+            vertical: isWeb ? 10 : 8,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: AppColors.primary.withOpacity(0.5),
+              width: 1.5,
             ),
-          ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.play_arrow_rounded,
+                color: AppColors.primary,
+                size: isWeb ? 18 : 16,
+              ),
+              SizedBox(width: isWeb ? 8 : 6),
+              Text(
+                "Live Demo",
+                style: GoogleFonts.firaCode(
+                  color: AppColors.primary,
+                  fontSize: isWeb ? 12 : 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
