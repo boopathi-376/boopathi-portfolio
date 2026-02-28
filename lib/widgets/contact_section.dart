@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/portfolio_provider.dart';
 import '../constants/app_colors.dart';
-import '../constants/app_dimensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ContactSection extends StatelessWidget {
@@ -25,7 +24,7 @@ class ContactSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final personalInfo = context.watch<PortfolioProvider>().personalInfo;
-    final isWeb = kIsWeb; // Breakpoint handled inside LayoutBuilder
+    final isWeb = kIsWeb;
 
     if (personalInfo == null) return const SizedBox.shrink();
 
@@ -36,102 +35,48 @@ class ContactSection extends StatelessWidget {
 
         return Container(
           width: double.infinity,
+          color: AppColors.background,
           padding: EdgeInsets.symmetric(
-            vertical: AppDimensions.paddingSectionWeb,
-            horizontal: isWide ? 60 : 24,
+            vertical: 60,
+            horizontal: isWide ? 80 : 24,
           ),
-          color: Colors.black,
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1400),
+              constraints: const BoxConstraints(maxWidth: 800),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  /// HEADER
-                  Text(
-                    "INITIALIZE_CONNECTION",
-                    style: GoogleFonts.firaCode(
-                      color: AppColors.secondary,
-                      fontSize: 14,
-                      letterSpacing: 2,
+                   Text(
+                    "Get in Touch",
+                    style: GoogleFonts.lora(
+                      color: AppColors.textPrimary,
+                      fontSize: 48,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    "Let's Build Something\nExceptional Together.",
-                    style: GoogleFonts.orbitron(
-                      color: AppColors.textPrimary,
-                      fontSize: isWide ? 52 : 36,
-                      fontWeight: FontWeight.w900,
-                      height: 1.1,
-                      letterSpacing: -1,
+                    "I'm always open to new opportunities and collaborations. Whether you have a project in mind or just want to say hi, feel free to reach out.",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.lora(
+                      color: AppColors.textSecondary,
+                      fontSize: 20,
+                      height: 1.6,
                     ),
                   ),
                   const SizedBox(height: 60),
-
-                  /// SPLIT LAYOUT OR STACK
-                  isWide
-                      ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 4,
-                            child: Text(
-                              "I'm currently available for freelance projects and open to full-time opportunities. If you have a project that needs some creative injection, let's chat.",
-                              style: GoogleFonts.inter(
-                                color: AppColors.textSecondary,
-                                fontSize: 18,
-                                height: 1.6,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 80),
-                          Expanded(
-                            flex: 5,
-                            child: _buildLinksColumn(personalInfo, isWide),
-                          ),
-                        ],
-                      )
-                      : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "I'm currently available for freelance projects and open to full-time opportunities.",
-                            style: GoogleFonts.inter(
-                              color: AppColors.textSecondary,
-                              fontSize: 16,
-                              height: 1.6,
-                            ),
-                          ),
-                          const SizedBox(height: 40),
-                          _buildLinksColumn(personalInfo, isWide),
-                        ],
-                      ),
-
-                  const SizedBox(height: 30),
-                  Divider(color: Colors.white.withOpacity(0.1)),
-                  const SizedBox(height: 20),
-
-                  /// FOOTER
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "© ${DateTime.now().year} ${personalInfo.name}.",
-                        style: GoogleFonts.inter(
-                          color: AppColors.textTertiary,
-                          fontSize: 12,
-                        ),
-                      ),
-                      Text(
-                        "Flutter Web Portfolio",
-                        style: GoogleFonts.inter(
-                          color: AppColors.textTertiary,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
+                  _buildContactLink("Email", personalInfo.email, "mailto:${personalInfo.email}"),
+                  _buildContactLink("LinkedIn", "Connect on LinkedIn", personalInfo.socialLinks['LinkedIn'] ?? ""),
+                  _buildContactLink("GitHub", "View Git Projects", personalInfo.socialLinks['GitHub'] ?? ""),
+                  const SizedBox(height: 100),
+                  const Divider(color: AppColors.border),
+                  const SizedBox(height: 40),
+                  Text(
+                    "© ${DateTime.now().year} ${personalInfo.name}. All rights reserved.",
+                    style: GoogleFonts.inter(
+                      color: AppColors.textSecondary,
+                      fontSize: 14,
+                    ),
                   ),
                 ],
               ),
@@ -142,124 +87,32 @@ class ContactSection extends StatelessWidget {
     );
   }
 
-  Widget _buildLinksColumn(dynamic personalInfo, bool isWide) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _ContactActionRow(
-          label: "Email Me",
-          value: personalInfo.email,
-          icon: Icons.arrow_outward,
-          onTap: () => _launchUrl("mailto:${personalInfo.email}"),
-          isHighlight: true,
-        ),
-        const SizedBox(height: 16),
-        _ContactActionRow(
-          label: "LinkedIn",
-          value: "Connect",
-          icon: Icons.link,
-          onTap: () => _launchUrl(personalInfo.socialLinks['LinkedIn'] ?? ''),
-        ),
-        const SizedBox(height: 16),
-        _ContactActionRow(
-          label: "GitHub",
-          value: "View Code",
-          icon: Icons.code,
-          onTap: () => _launchUrl(personalInfo.socialLinks['GitHub'] ?? ''),
-        ),
-      ],
-    );
-  }
-}
-
-class _ContactActionRow extends StatefulWidget {
-  final String label;
-  final String value;
-  final IconData icon;
-  final VoidCallback onTap;
-  final bool isHighlight;
-
-  const _ContactActionRow({
-    required this.label,
-    required this.value,
-    required this.icon,
-    required this.onTap,
-    this.isHighlight = false,
-  });
-
-  @override
-  State<_ContactActionRow> createState() => _ContactActionRowState();
-}
-
-class _ContactActionRowState extends State<_ContactActionRow> {
-  bool isHover = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => isHover = true),
-      onExit: (_) => setState(() => isHover = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 30),
-          decoration: BoxDecoration(
-            color:
-                isHover || widget.isHighlight
-                    ? Colors.white
-                    : Colors.white.withOpacity(0.05),
-            borderRadius: BorderRadius.circular(
-              0,
-            ), // Sharp edges for terminal feel
-            border: Border.all(
-              color:
-                  isHover || widget.isHighlight
-                      ? Colors.white
-                      : Colors.white.withOpacity(0.1),
+  Widget _buildContactLink(String label, String value, String url) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: InkWell(
+        onTap: () => _launchUrl(url),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "$label: ",
+              style: GoogleFonts.inter(
+                color: AppColors.textPrimary,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.label,
-                    style: GoogleFonts.inter(
-                      color:
-                          isHover || widget.isHighlight
-                              ? Colors.black
-                              : Colors.white70,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    widget.value,
-                    style: GoogleFonts.orbitron(
-                      color:
-                          isHover || widget.isHighlight
-                              ? Colors.black
-                              : Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                ],
+            Text(
+              value,
+              style: GoogleFonts.inter(
+                color: AppColors.primary,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.underline,
               ),
-              Icon(
-                widget.icon,
-                color:
-                    isHover || widget.isHighlight ? Colors.black : Colors.white,
-                size: 28,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

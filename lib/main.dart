@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'constants/app_colors.dart';
 import 'providers/portfolio_provider.dart';
 import 'screens/home_screen.dart';
+import 'constants/app_colors.dart';
 
 void main() {
   runApp(
@@ -23,17 +23,34 @@ class PortfolioApp extends StatelessWidget {
       title: 'Boopathi | AI & Flutter Engineer',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: AppColors.background,
-        primaryColor: AppColors.primary,
-        colorScheme: const ColorScheme.dark(
-          primary: AppColors.primary,
-          secondary: AppColors.secondary,
-          surface: AppColors.surface,
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primary,
           background: AppColors.background,
         ),
-        textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
-        useMaterial3: true,
+        textTheme: GoogleFonts.interTextTheme(
+          ThemeData.light().textTheme,
+        ).copyWith(
+          displayLarge: GoogleFonts.lora(
+            textStyle: ThemeData.light().textTheme.displayLarge,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+          displayMedium: GoogleFonts.lora(
+            textStyle: ThemeData.light().textTheme.displayMedium,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+          bodyLarge: GoogleFonts.inter(
+            textStyle: ThemeData.light().textTheme.bodyLarge,
+            color: AppColors.textPrimary,
+          ),
+          bodyMedium: GoogleFonts.inter(
+            textStyle: ThemeData.light().textTheme.bodyMedium,
+            color: AppColors.textSecondary,
+          ),
+        ),
+        scaffoldBackgroundColor: AppColors.background,
       ),
       home: const HomeScreen(),
     );

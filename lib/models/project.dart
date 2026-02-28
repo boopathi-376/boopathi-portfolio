@@ -5,6 +5,7 @@ class Project {
   final List<String> technologies;
   final String? githubUrl;
   final String? liveDemoUrl;
+  final String? date;
 
   Project({
     required this.title,
@@ -13,6 +14,7 @@ class Project {
     required this.technologies,
     this.githubUrl,
     this.liveDemoUrl,
+    this.date,
   });
 
   factory Project.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Project {
       technologies: List<String>.from(json['technologies']),
       githubUrl: json['githubUrl'],
       liveDemoUrl: json['liveDemoUrl'],
+      date: json['date'],
     );
   }
 }

@@ -66,7 +66,7 @@
             "subtitle": "Artificial Intelligence and Data Science",
             "institution": "Dr. Mahalingam College of Engineering and Technology, Anna University, Pollachi",
             "date": "2023 - 2027",
-            "score": "CGPA: 7.85"
+            "score": "CGPA: 8.141"
         },
         {
             "title": "HSC",
@@ -85,7 +85,20 @@
     ],
     "projects": [
         {
-            "title": "Semantic Filter-Driven Chatbot 🤖",
+            "title": "CPSAM – Student Management ",
+            "description": "Mobile application enabling activity submission and dashboard tracking. Integrated REST APIs with secure HTTPS communication and JWT-based authentication.",
+            "imageUrl": "https://images.unsplash.com/photo-1523050335392-938511794244",
+            "technologies": [
+                "Flutter",
+                "REST API",
+                "JWT",
+                "HTTPS"
+            ],
+            "githubUrl": "https://github.com/boopathi-376/mobileapp",
+            "date": "Nov 2025 - Dec 2025"
+        },
+        {
+            "title": "Semantic Filter-Driven Chatbot ",
             "description": "Built a RAG-based REST API using FastAPI with vector search via Qdrant. Integrated Ollama for local LLM inference and Docker for containerized vector DB, returning structured JSON output.",
             "imageUrl": "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
             "technologies": [
@@ -99,7 +112,7 @@
             "date": "Oct 2025 - Nov 2025"
         },
         {
-            "title": "Full-Stack Cafe Delivery App ☕",
+            "title": "Full-Stack Cafe Delivery App ",
             "description": "Developed a full-stack mobile application using Flutter and Firebase (Authentication, Cloud Firestore). Implemented real-time data synchronization and cloud-based image storage.",
             "imageUrl": "https://images.unsplash.com/photo-1554118811-1e0d58224f24",
             "technologies": [
@@ -109,19 +122,6 @@
             ],
             "githubUrl": "https://github.com/boopathi-376/cafe_customer",
             "date": "Apr 2025 - May 2025"
-        },
-        {
-            "title": "CPSAM – Student Management 🎓",
-            "description": "Mobile application enabling activity submission and dashboard tracking. Integrated REST APIs with secure HTTPS communication and JWT-based authentication.",
-            "imageUrl": "https://images.unsplash.com/photo-1523050335392-938511794244",
-            "technologies": [
-                "Flutter",
-                "REST API",
-                "JWT",
-                "HTTPS"
-            ],
-            "githubUrl": "https://github.com/boopathi-376/mobileapp",
-            "date": "Nov 2025 - Dec 2025"
         }
     ],
     "internships": [
@@ -145,14 +145,14 @@
             "date": "2025"
         },
         {
-            "title": "Office Bearer, Invictus",
-            "institution": "AI & DS Association",
-            "date": "2024 - 2025"
-        },
-        {
             "title": "Flutter Essential Training",
             "institution": "LinkedIn Learning",
             "date": "2025"
+        },
+        {
+            "title": "Office Bearer, Invictus",
+            "institution": "AI & DS Association",
+            "date": "2024 - 2025"
         },
         {
             "title": "Soft Skill Development",

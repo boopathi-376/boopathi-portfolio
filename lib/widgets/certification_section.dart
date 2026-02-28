@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/portfolio_provider.dart';
 import '../constants/app_colors.dart';
-import '../constants/app_dimensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CertificationSection extends StatelessWidget {
@@ -15,13 +14,12 @@ class CertificationSection extends StatelessWidget {
 
     if (certifications.isEmpty) return const SizedBox.shrink();
 
-    return Padding(
+    return Container(
+      width: double.infinity,
+      color: AppColors.background,
       padding: EdgeInsets.symmetric(
-        horizontal: isWeb ? 60 : 24,
-        vertical:
-            isWeb
-                ? AppDimensions.paddingSectionWeb
-                : AppDimensions.paddingSectionMobile,
+        vertical: 40,
+        horizontal: isWeb ? 80 : 24,
       ),
       child: Center(
         child: ConstrainedBox(
@@ -31,21 +29,18 @@ class CertificationSection extends StatelessWidget {
             children: [
               Text(
                 "Certifications & Achievements",
-                style: GoogleFonts.orbitron(
+                style: GoogleFonts.lora(
                   color: AppColors.textPrimary,
-                  fontSize: isWeb ? 30 : 26,
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 32),
               ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: certifications.length,
-                separatorBuilder:
-                    (context, index) =>
-                        Divider(color: Colors.white.withOpacity(0.05)),
+                separatorBuilder: (context, index) => const Divider(color: AppColors.border),
                 itemBuilder: (context, index) {
                   return _CertListItem(cert: certifications[index]);
                 },
@@ -58,94 +53,52 @@ class CertificationSection extends StatelessWidget {
   }
 }
 
-class _CertListItem extends StatefulWidget {
+class _CertListItem extends StatelessWidget {
   final dynamic cert;
   const _CertListItem({required this.cert});
-
-  @override
-  State<_CertListItem> createState() => _CertListItemState();
-}
-
-class _CertListItemState extends State<_CertListItem> {
-  bool isHover = false;
 
   @override
   Widget build(BuildContext context) {
     final isWeb = MediaQuery.of(context).size.width > 600;
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => isHover = true),
-      onExit: (_) => setState(() => isHover = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        decoration: BoxDecoration(
-          color:
-              isHover
-                  ? AppColors.primary.withOpacity(0.05)
-                  : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-          border: Border(
-            left: BorderSide(
-              color: isHover ? AppColors.accent : Colors.transparent,
-              width: 3,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  cert.title,
+                  style: GoogleFonts.inter(
+                    color: AppColors.textPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  cert.institution,
+                  style: GoogleFonts.inter(
+                    color: AppColors.textSecondary,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
-        child:
-            isWeb
-                ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(child: _buildContent()),
-                    const SizedBox(width: 32),
-                    _buildDate(widget.cert.date),
-                  ],
-                )
-                : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildContent(),
-                    const SizedBox(height: 8),
-                    _buildDate(widget.cert.date),
-                  ],
-                ),
+          if (isWeb)
+            Text(
+              cert.date,
+              style: GoogleFonts.inter(
+                color: AppColors.textSecondary,
+                fontSize: 14,
+              ),
+            ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildDate(String date) {
-    return Text(
-      "[$date]",
-      style: GoogleFonts.firaCode(
-        color: isHover ? AppColors.accent : AppColors.textSecondary,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-      ),
-    );
-  }
-
-  Widget _buildContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.cert.title,
-          style: GoogleFonts.inter(
-            color: isHover ? AppColors.textPrimary : Colors.white70,
-            fontSize: 16, // Already reduced size
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          widget.cert.institution,
-          style: GoogleFonts.inter(
-            color: AppColors.textTertiary,
-            fontSize: 14, // Already reduced size
-          ),
-        ),
-      ],
     );
   }
 }

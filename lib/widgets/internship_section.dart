@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/portfolio_provider.dart';
 import '../constants/app_colors.dart';
-import '../constants/app_dimensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InternshipSection extends StatelessWidget {
@@ -15,13 +14,12 @@ class InternshipSection extends StatelessWidget {
 
     if (internships.isEmpty) return const SizedBox.shrink();
 
-    return Padding(
+    return Container(
+      width: double.infinity,
+      color: AppColors.background,
       padding: EdgeInsets.symmetric(
-        horizontal: isWeb ? 60 : 24,
-        vertical:
-            isWeb
-                ? AppDimensions.paddingSectionWeb
-                : AppDimensions.paddingSectionMobile,
+        vertical: 40,
+        horizontal: isWeb ? 80 : 24,
       ),
       child: Center(
         child: ConstrainedBox(
@@ -31,21 +29,18 @@ class InternshipSection extends StatelessWidget {
             children: [
               Text(
                 "Experience",
-                style: GoogleFonts.orbitron(
+                style: GoogleFonts.lora(
                   color: AppColors.textPrimary,
-                  fontSize: isWeb ? 30 : 26,
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 32),
               ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: internships.length,
-                separatorBuilder:
-                    (context, index) =>
-                        Divider(color: Colors.white.withOpacity(0.05)),
+                separatorBuilder: (context, index) => const Divider(color: AppColors.border),
                 itemBuilder: (context, index) {
                   return _InternshipListItem(internship: internships[index]);
                 },
@@ -58,104 +53,72 @@ class InternshipSection extends StatelessWidget {
   }
 }
 
-class _InternshipListItem extends StatefulWidget {
+class _InternshipListItem extends StatelessWidget {
   final dynamic internship;
   const _InternshipListItem({required this.internship});
-
-  @override
-  State<_InternshipListItem> createState() => _InternshipListItemState();
-}
-
-class _InternshipListItemState extends State<_InternshipListItem> {
-  bool isHover = false;
 
   @override
   Widget build(BuildContext context) {
     final isWeb = MediaQuery.of(context).size.width > 600;
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => isHover = true),
-      onExit: (_) => setState(() => isHover = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        decoration: BoxDecoration(
-          color:
-              isHover
-                  ? AppColors.primary.withOpacity(0.05)
-                  : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-          border: Border(
-            left: BorderSide(
-              color: isHover ? AppColors.accent : Colors.transparent,
-              width: 3,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  internship.title,
+                  style: GoogleFonts.inter(
+                    color: AppColors.textPrimary,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              if (isWeb)
+                Text(
+                  internship.date,
+                  style: GoogleFonts.inter(
+                    color: AppColors.textSecondary,
+                    fontSize: 14,
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            internship.company,
+            style: GoogleFonts.inter(
+              color: AppColors.primary,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
             ),
           ),
-        ),
-        child:
-            isWeb
-                ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(child: _buildContent()),
-                    const SizedBox(width: 32),
-                    _buildDate(widget.internship.date),
-                  ],
-                )
-                : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildContent(),
-                    const SizedBox(height: 8),
-                    _buildDate(widget.internship.date),
-                  ],
-                ),
+          if (!isWeb) ...[
+            const SizedBox(height: 8),
+            Text(
+              internship.date,
+              style: GoogleFonts.inter(
+                color: AppColors.textSecondary,
+                fontSize: 14,
+              ),
+            ),
+          ],
+          const SizedBox(height: 16),
+          Text(
+            internship.description,
+            style: GoogleFonts.lora(
+              color: AppColors.textSecondary,
+              fontSize: 16,
+              height: 1.6,
+            ),
+          ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildDate(String date) {
-    return Text(
-      "[$date]",
-      style: GoogleFonts.firaCode(
-        color: isHover ? AppColors.accent : AppColors.textSecondary,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-      ),
-    );
-  }
-
-  Widget _buildContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.internship.title,
-          style: GoogleFonts.inter(
-            color: isHover ? AppColors.textPrimary : Colors.white70,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          widget.internship.company,
-          style: GoogleFonts.inter(
-            color: AppColors.secondary,
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          widget.internship.description,
-          style: GoogleFonts.inter(
-            color: AppColors.textTertiary,
-            fontSize: 14,
-            height: 1.5,
-          ),
-        ),
-      ],
     );
   }
 }
