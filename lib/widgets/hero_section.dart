@@ -76,7 +76,7 @@ class HeroSection extends StatelessWidget {
         Text(
           personalInfo.name,
           style: GoogleFonts.lora(
-            fontSize: isWeb ? 80 : 48,
+            fontSize: isWeb ? 48 : 28,
             fontWeight: FontWeight.bold,
             color: AppColors.textPrimary,
             height: 1.1,

@@ -72,7 +72,7 @@ class ContactSection extends StatelessWidget {
                   const Divider(color: AppColors.border),
                   const SizedBox(height: 40),
                   Text(
-                    "© ${DateTime.now().year} ${personalInfo.name}. All rights reserved.",
+                    "Build with Flutter",
                     style: GoogleFonts.inter(
                       color: AppColors.textSecondary,
                       fontSize: 14,
