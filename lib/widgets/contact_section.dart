@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/portfolio_provider.dart';
@@ -24,7 +23,6 @@ class ContactSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final personalInfo = context.watch<PortfolioProvider>().personalInfo;
-    final isWeb = kIsWeb;
 
     if (personalInfo == null) return const SizedBox.shrink();
 

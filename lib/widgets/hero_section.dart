@@ -116,13 +116,9 @@ class HeroSection extends StatelessWidget {
   }
 
   Widget _buildProfileImage(String? imageUrl, bool isWeb) {
-    double size = isWeb ? 400 : 250;
-
-    ImageProvider? imageProvider;
-    if (imageUrl != null) {
-      final isNetwork = imageUrl.startsWith('http://') || imageUrl.startsWith('https://');
-      imageProvider = isNetwork ? NetworkImage(imageUrl) as ImageProvider : AssetImage(imageUrl);
-    }
+    final double size = isWeb ? 400 : 250;
+    final bool isNetwork = imageUrl != null &&
+        (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'));
 
     return Container(
       width: size,
@@ -130,12 +126,13 @@ class HeroSection extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: AppColors.border, width: 1),
-        image: imageProvider != null
-            ? DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-              )
-            : null,
+      ),
+      child: ClipOval(
+        child: imageUrl != null
+            ? (isNetwork
+                ? Image.network(imageUrl, width: size, height: size, fit: BoxFit.cover)
+                : Image.asset(imageUrl, width: size, height: size, fit: BoxFit.cover))
+            : const SizedBox.shrink(),
       ),
     );
   }
