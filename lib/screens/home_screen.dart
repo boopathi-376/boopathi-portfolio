@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../providers/portfolio_provider.dart';
 import '../widgets/hero_section.dart';
 import '../widgets/skills_section.dart';
 import '../widgets/education_section.dart';
@@ -24,6 +26,38 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey _certificationsKey = GlobalKey();
   final GlobalKey _projectsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
+
+  String _activeSection = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final sections = {
+      'Skills': _skillsKey,
+      'Experience': _experienceKey,
+      'Projects': _projectsKey,
+      'Education': _educationKey,
+      'Certifications': _certificationsKey,
+      'Contact': _contactKey,
+    };
+    for (final entry in sections.entries) {
+      final ctx = entry.value.currentContext;
+      if (ctx == null) continue;
+      final box = ctx.findRenderObject() as RenderBox?;
+      if (box == null) continue;
+      final pos = box.localToGlobal(Offset.zero);
+      if (pos.dy <= 120 && pos.dy + box.size.height > 0) {
+        if (_activeSection != entry.key) {
+          setState(() => _activeSection = entry.key);
+        }
+        break;
+      }
+    }
+  }
 
   void _scrollToSection(String sectionName) {
     GlobalKey? key;
@@ -98,35 +132,51 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       endDrawer: _buildMobileDrawer(),
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverToBoxAdapter(
-            child: HeroSection(
-              onMenuClick: _scrollToSection,
-              onViewWork: () => _scrollToSection('Projects'),
-              onContact: () => _scrollToSection('Contact'),
-            ),
-          ),
-          SliverToBoxAdapter(key: _skillsKey, child: const SkillsSection()),
-          SliverToBoxAdapter(
-            key: _experienceKey,
-            child: const InternshipSection(),
-          ),
-          SliverToBoxAdapter(
-            key: _projectsKey,
-            child: const ProjectGrid(),
-          ),
-          SliverToBoxAdapter(
-            key: _educationKey,
-            child: const EducationSection(),
-          ),
-          SliverToBoxAdapter(
-            key: _certificationsKey,
-            child: const CertificationSection(),
-          ),
-          SliverToBoxAdapter(key: _contactKey, child: const ContactSection()),
-        ],
+      body: Consumer<PortfolioProvider>(
+        builder: (context, provider, _) {
+          if (provider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (provider.errorMessage != null) {
+            return Center(
+              child: Text(
+                provider.errorMessage!,
+                style: const TextStyle(color: Colors.red),
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+          return CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              SliverToBoxAdapter(
+                child: HeroSection(
+                  onMenuClick: _scrollToSection,
+                  onViewWork: () => _scrollToSection('Projects'),
+                  onContact: () => _scrollToSection('Contact'),
+                ),
+              ),
+              SliverToBoxAdapter(key: _skillsKey, child: const SkillsSection()),
+              SliverToBoxAdapter(
+                key: _experienceKey,
+                child: const InternshipSection(),
+              ),
+              SliverToBoxAdapter(
+                key: _projectsKey,
+                child: const ProjectGrid(),
+              ),
+              SliverToBoxAdapter(
+                key: _educationKey,
+                child: const EducationSection(),
+              ),
+              SliverToBoxAdapter(
+                key: _certificationsKey,
+                child: const CertificationSection(),
+              ),
+              SliverToBoxAdapter(key: _contactKey, child: const ContactSection()),
+            ],
+          );
+        },
       ),
     );
   }
@@ -145,14 +195,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _navButton(String title) {
+    final isActive = _activeSection == title;
     return TextButton(
       onPressed: () => _scrollToSection(title),
       child: Text(
         title,
         style: GoogleFonts.inter(
-          color: AppColors.textSecondary,
+          color: isActive ? AppColors.primary : AppColors.textSecondary,
           fontSize: 14,
-          fontWeight: FontWeight.w400,
+          fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
         ),
       ),
     );
@@ -202,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }

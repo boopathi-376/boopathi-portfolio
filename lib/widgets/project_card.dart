@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:url_launcher/url_launcher.dart';
 import '../models/project.dart';
 import '../constants/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -118,7 +119,7 @@ class _ProjectCardState extends State<ProjectCard> {
             borderRadius: BorderRadius.circular(100),
           ),
           child: Text(
-            widget.project.technologies.first,
+            widget.project.technologies.isNotEmpty ? widget.project.technologies.first : '',
             style: GoogleFonts.inter(
               fontSize: 12,
               color: AppColors.textSecondary,
@@ -131,9 +132,12 @@ class _ProjectCardState extends State<ProjectCard> {
 
   Widget _githubIconButton(String url) {
     return IconButton(
-      icon: Icon(Icons.code, color: AppColors.textSecondary, size: 20),
-      onPressed: () {
-        // Handle URL launch
+      icon: const Icon(Icons.code, color: AppColors.textSecondary, size: 20),
+      onPressed: () async {
+        final uri = Uri.parse(url);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
       },
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),

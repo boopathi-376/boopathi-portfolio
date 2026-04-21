@@ -118,15 +118,21 @@ class HeroSection extends StatelessWidget {
   Widget _buildProfileImage(String? imageUrl, bool isWeb) {
     double size = isWeb ? 400 : 250;
 
+    ImageProvider? imageProvider;
+    if (imageUrl != null) {
+      final isNetwork = imageUrl.startsWith('http://') || imageUrl.startsWith('https://');
+      imageProvider = isNetwork ? NetworkImage(imageUrl) as ImageProvider : AssetImage(imageUrl);
+    }
+
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: AppColors.border, width: 1),
-        image: imageUrl != null
+        image: imageProvider != null
             ? DecorationImage(
-                image: NetworkImage(imageUrl),
+                image: imageProvider,
                 fit: BoxFit.cover,
               )
             : null,
