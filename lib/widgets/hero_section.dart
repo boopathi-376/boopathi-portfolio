@@ -128,11 +128,9 @@ class HeroSection extends StatelessWidget {
         border: Border.all(color: AppColors.border, width: 1),
       ),
       child: ClipOval(
-        child: imageUrl != null
-            ? (isNetwork
-                ? Image.network(imageUrl, width: size, height: size, fit: BoxFit.cover)
-                : Image.asset(imageUrl, width: size, height: size, fit: BoxFit.cover))
-            : const SizedBox.shrink(),
+        child: isNetwork
+            ? Image.network(imageUrl!, width: size, height: size, fit: BoxFit.cover)
+            : Image.asset('assets/images/boopathi.jpeg', width: size, height: size, fit: BoxFit.cover),
       ),
     );
   }
